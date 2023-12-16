@@ -1,16 +1,18 @@
-public class caracteristicas {
+public class caracteristicas extends elementos {
     private int vida;
     private int ataque;
     private int defensa;
     private elementos elemento;
 
-    public caracteristicas(int vida, int ataque, int defensa, elementos elemento) {
+    // constructor que toma de elemento
+    public caracteristicas(int vida, int ataque, int defensa, elemento elemento) {
+        super(elemento);
         this.vida = vida;
         this.ataque = ataque;
         this.defensa = defensa;
-        this.elemento = elemento;
     }
 
+    // getters
     public int getVida() {
         return vida;
     }
