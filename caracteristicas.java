@@ -17,7 +17,7 @@ public class caracteristicas extends elementos {
         return vida;
     }
 
-    public int getDanio() {
+    public int getAtaque() {
         return ataque;
     }
 
@@ -29,3 +29,4 @@ public class caracteristicas extends elementos {
         return elemento;
     }
 }
+
