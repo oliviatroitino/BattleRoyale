@@ -5,12 +5,12 @@ enum elemento {
     hielo
 }
 
-public class elementos {
+public class Elementos {
     // elemento_elegido (sirve para jugador y herramienta)
     private elemento elemento_elegido;
 
     // constructor
-    public elementos(elemento elemento_elegido) {
+    public Elementos(elemento elemento_elegido) {
         this.elemento_elegido = elemento_elegido;
     }
   

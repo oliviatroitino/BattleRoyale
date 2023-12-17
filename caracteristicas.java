@@ -1,11 +1,11 @@
-public class caracteristicas extends elementos {
+public abstract class Caracteristicas extends Elementos {
     private int vida;
     private int ataque;
     private int defensa;
-    private elementos elemento;
+    private Elementos elemento;
 
     // constructor que toma de elemento
-    public caracteristicas(int vida, int ataque, int defensa, elemento elemento) {
+    public Caracteristicas(int vida, int ataque, int defensa, elemento elemento) {
         super(elemento);
         this.vida = vida;
         this.ataque = ataque;
@@ -25,7 +25,7 @@ public class caracteristicas extends elementos {
         return defensa;
     }
 
-    public elementos getElemento() {
+    public Elementos getElemento() {
         return elemento;
     }
 }
