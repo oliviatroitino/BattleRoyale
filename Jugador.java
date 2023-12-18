@@ -1,13 +1,20 @@
-enum tipo_jugador {
+public class Jugador extends Caracteristicas {
 
-   ataque,
-   defensa,
-   medico
+   private String nombre;
+   private Personaje personaje;
 
-}
+   public Jugador(float vida, float ataque, float defensa, Elementos elemento, Herramientas herramientas,
+                  String nombre) {
 
-public class Jugador extends Personaje {
+      super(vida, ataque, defensa, elemento);
+      this.nombre = nombre;
+   }
+   // Setters
+   public void setNombre(String nombre) {
+      this.nombre = nombre;
+   }
 
-   
-   
+   public void setTipoPersonaje()
+
+
 }
