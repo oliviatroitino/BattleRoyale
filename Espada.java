@@ -1,7 +1,14 @@
+
 public class Espada extends Herramientas {
 
-   public Espada() {
-      // El elemento es nulo, porque el constructor de personaje lo configura automáticamente al elemento del personaje
-      super(5, 3, 0, null, tipo_herramienta.mele);
-   } 
+	public Espada() {
+		super(3, 2, 0, null, TipoHerramienta.MELE);
+	}
+
+	@Override
+	public String toString() {
+		return "Espada [Tipo_herramienta()=" + getTipo_herramienta() + ", Vida()=" + getVida() + ", Ataque()="
+				+ getAtaque() + ", Defensa()=" + getDefensa() + ", Elemento()=" + getElemento() + "]";
+	}
+
 }

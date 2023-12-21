@@ -1,24 +1,32 @@
-enum tipo_herramienta {
-   mele,
-   armadura,
-   pocion;
+
+// TipoHerramienta es el enum.
+// tipoHerramienta es la invocación
+
+enum TipoHerramienta {
+	MELE,
+	ARMADURA,
+	POCION;
 }
 
-public abstract class Herramientas extends Caracteristicas{
+public abstract class Herramientas extends Caracteristicas {
 
-   private tipo_herramienta tipo_herramienta;
+	private TipoHerramienta tipoHerramienta;
+	
+	public Herramientas(float durabilidad, float ataque, float defensa, Elementos elemento, 
+			TipoHerramienta tipoHerramienta) {
+		super(durabilidad, ataque, defensa, elemento);
+		this.tipoHerramienta = tipoHerramienta;
+	}
 
-   public Herramientas(float durabilidad, float ataque, float defensa, Elementos elemento,
-                       tipo_herramienta tipo_herramienta) {
+	// Getters
+	public TipoHerramienta getTipo_herramienta() {
+		return tipoHerramienta;
+	}
 
-      // La durabilidad de la herramienta es su vida
-      super(durabilidad, ataque, defensa, elemento);
-      this.tipo_herramienta = tipo_herramienta;
-
-   }
-
-   public tipo_herramienta getTipoHerramienta() {
-      return tipo_herramienta;
-   }
+	// Setters
+	public void setTipo_herramienta(TipoHerramienta tipoHerramienta) {
+		this.tipoHerramienta = tipoHerramienta;
+	}
+	
 
 }

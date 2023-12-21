@@ -1,25 +1,38 @@
-// Clase que contiene los elementos y sus interacciones
-enum elemento {
 
-   AGUA, // Daña a Fuego, recibe daño de Hielp
-   HIELO, // Daña a Hielo, redibe daño de Agua
-   FUEGO; // Daña a Agua, recibe daño de Fuego
+// Clase que contiene los elementos y sus interacciones
+enum Elemento {
+
+	Agua,
+	Fuego,
+	Hielo;
 
 }
 
 public class Elementos {
 
-   // Constructor que inicializa las instancias de los elementos vacío porque ya están incializados con
-   // el enum superior
-   public Elementos() { }
+	private Elemento elemento;
 
-   public float interaccion(elemento atacante, elemento defensor) {
+	public Elementos(Elemento elemento) {
+		this.elemento = elemento;
+	}
 
-      float bonus = 0;
-      System.out.println(atacante + " hace daño a " + defensor);
-      // Lógica para aplicar el efecto y recibir daño
-      return bonus;
+	// Getter
 
-   }
+	public Elemento getElemento() {
+		return elemento;
+	}
+
+	// Setter
+	public void setElemento(Elemento elemento) {
+		this.elemento = elemento;
+	}
+
+	public float interaccion(Elemento atacante, Elemento defensor) {
+
+		float bonus = 0;
+		System.out.println(atacante + " hace daño a " + defensor);
+		// Lógica para aplicar el efecto y recibir daño
+		return bonus;
+	}
 
 }
