@@ -12,7 +12,8 @@ enum TipoPersonaje {
 public abstract class Personaje extends Caracteristicas {
 
 	private TipoPersonaje tipoPersonaje;
-	private Herramientas herramienta;
+	private Herramientas[] herramientas = new Herramientas[3];
+	private int herramientas_usadas;
 
 	private Elemento elemento;
 
@@ -20,11 +21,15 @@ public abstract class Personaje extends Caracteristicas {
 			TipoPersonaje tipoPersonaje, Herramientas herramienta) {
 		super(vida, ataque, defensa, elemento);
 		this.tipoPersonaje = tipoPersonaje;
+		this.herramientas_usadas = 0;
 
 		// Hacer que el elemento del arma sea automáticamente el elemento del personaje
-		if (this.herramienta != null) {
-			this.herramienta.setElemento(elemento);
+		for (int i = 0; i < 3; i++) {
+			if (this.herramientas[i] != null) {
+				this.herramientas[i].setElemento(elemento);
+			}
 		}
+
 	}
 
 	// Getters
@@ -32,17 +37,26 @@ public abstract class Personaje extends Caracteristicas {
 		return tipoPersonaje;
 	}
 
-	public Herramientas getHerramienta() {
-		return herramienta;
+	public Herramientas getHerramienta(int i) {
+		return herramientas[i];
+	}
+
+	public int getHerramientasUsadas() {
+		return herramientas_usadas;
 	}
 
 	// Setters
+
+	public void setHerramientasUsadas() {
+		this.herramientas_usadas = herramientas_usadas + 1;
+	}
+
 	public void setTipo_personaje(TipoPersonaje tipoPersonaje) {
 		this.tipoPersonaje = tipoPersonaje;
 	}
 
 	public void setHerramienta(Herramientas herramienta) {
-		this.herramienta = herramienta;
+		this.herramientas[this.getHerramientasUsadas() - 1] = herramienta;
 	}
 
 	public String printPersonaje() {

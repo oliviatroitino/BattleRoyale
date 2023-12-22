@@ -94,20 +94,23 @@ public class Jugador {
 
 	}
 
-	public void atacar(Jugador j_enemigo, Pantalla pantalla) {
+	public void atacar(Equipo thisEquipo, Equipo equipoEnemigo, Jugador j_enemigo, Pantalla pantalla) {
 		Elementos elementos = new Elementos();
 		Personaje enemigo = j_enemigo.getPersonaje();
 		float factorAtaque = elementos.interaccion(this.getPersonaje().getElemento(), enemigo.getElemento());
+		float vida_antes = enemigo.getVida();
 
 		// Incluyendo la lógica de armas
-		Herramientas arma = this.getPersonaje().getHerramienta();
-		if (arma != null) {
-			if (arma.getTipoHerramienta() == tipo_herramienta.mele) {
-				factorAtaque *= 1.2f; // Ejemplo de bonificación de ataque para armas de melee
-			} else if (arma.getTipoHerramienta() == tipo_herramienta.armadura) {
-				// Lógica para reducir el daño recibido por armadura, si aplica
-			} else if (arma.getTipoHerramienta() == tipo_herramienta.pocion) {
-				// Lógica para potenciar al personaje temporalmente con pociones
+		for (int i = 0; i < 3; i++) {
+			Herramientas arma = this.getPersonaje().getHerramienta(i);
+			if (arma != null) {
+				if (arma.getTipoHerramienta() == tipo_herramienta.mele) {
+					factorAtaque *= 1.2f; // Ejemplo de bonificación de ataque para armas de melee
+				} else if (arma.getTipoHerramienta() == tipo_herramienta.armadura) {
+					// Lógica para reducir el daño recibido por armadura, si aplica
+				} else if (arma.getTipoHerramienta() == tipo_herramienta.pocion) {
+					// Lógica para potenciar al personaje temporalmente con pociones
+				}
 			}
 		}
 
@@ -116,13 +119,28 @@ public class Jugador {
 		if (damage > 0) {
 			enemigo.setVida(enemigo.getVida() - damage);
 			JOptionPane.showMessageDialog(pantalla,
-					this.getPersonaje().getTipo_personaje() + " " + j_enemigo.getNombre() + " ha atacado a "
-							+ enemigo.getTipo_personaje() + " " + this.getNombre() + " causando " + damage
+					this.getPersonaje().getTipo_personaje() + " " + this.getNombre() + " ha atacado a "
+							+ enemigo.getTipo_personaje() + " " + j_enemigo.getNombre() + " causando " + damage
 							+ " puntos de daño.");
 		} else {
 			JOptionPane.showMessageDialog(pantalla,
-					this.getPersonaje().getTipo_personaje() + " atacó a " + enemigo.getTipo_personaje()
-							+ ", pero no causó daño.");
+					this.getPersonaje().getTipo_personaje() + " " + this.getNombre() + " atacó a "
+							+ enemigo.getTipo_personaje() + " " + j_enemigo.getNombre() + ", pero no causó daño.");
+		}
+
+		if (enemigo.getVida() <= 0) {
+			thisEquipo.setDinero(3);
+			equipoEnemigo.setDinero(-3);
+			JOptionPane.showMessageDialog(pantalla, "El personaje " + j_enemigo.getPersonaje().getTipo_personaje() + " "
+					+ j_enemigo.getNombre() + " ha muerto. Su asesino le ha robado 3 monedas.\n\nEl equipo de "
+					+ this.getNombre() + " tiene " + thisEquipo.getDinero() + "y el equipo de " + j_enemigo.getNombre()
+					+ " tiene " + equipoEnemigo.getDinero() + " monedas.");
+			// this.getPersonaje().setHerramienta(enemigo.getHerramienta());
+			// idealmente sería esto
+		} else {
+			JOptionPane.showMessageDialog(pantalla, "La vida de " + j_enemigo.getPersonaje().getTipo_personaje() + " "
+					+ j_enemigo.getNombre() + "ha pasado de " + vida_antes + " a "
+					+ j_enemigo.getPersonaje().getVida());
 		}
 
 	}

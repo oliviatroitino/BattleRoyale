@@ -1,10 +1,12 @@
 import javax.swing.JOptionPane;
+import java.util.Random;
 
 public class Partida {
     public static void main(String[] args) {
         Pantalla pantalla = new Pantalla("Battle Royale");
         int cantidad_jugadores = 0;
         int cantidad_equipos = 0;
+        int respuesta = -1;
         Equipo[] equipos;
         boolean partida_finalizada = false;
 
@@ -18,6 +20,8 @@ public class Partida {
         boolean validoP = false;
 
         pantalla.setVisible(true);
+
+        // CREACIÓN EQUIPOS Y PERSONAJES
 
         JOptionPane.showMessageDialog(pantalla, "Bienvenido al Battle Royale!", "Battle Royale",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -53,7 +57,6 @@ public class Partida {
         equipos = new Equipo[cantidad_equipos];
 
         for (int i = 0; i < cantidad_equipos; i++) {
-
             equipos[i] = new Equipo(cantidad_jugadores, pantalla, i + 1);
         }
 
@@ -61,17 +64,29 @@ public class Partida {
             equipos[j].printEquipo(equipos[j], pantalla);
         }
 
+        // PARTIDA
+
+        // para motivos de testing:
+        equipos[0].setDinero(6);
+
         while (partida_finalizada == false) {
             // comienzan siempre como falsos para entrar en los loops 1 y 2
             if (jugador_atacante + 1 == cantidad_jugadores) {
                 validoE = false;
             }
             validoP = false;
+            jugador_atacado = -1; // se resetea
+            equipo_atacado = -1; // se resetea
 
             // loop 1
             // se fija si el equipo atacante es válido
             while (!validoE) {
-                equipo_atacante++;
+                if (equipo_atacante + 1 != cantidad_equipos) {
+                    equipo_atacante++;
+                } else {
+                    jugador_atacante = 0;
+                }
+
                 if (equipos[equipo_atacante].getMuerto() == false) {
                     validoE = true;
                 } else if (equipos[equipo_atacante].getMuerto() == true) {
@@ -85,7 +100,11 @@ public class Partida {
             // loop 2
             // se fija si el jugador atacante es válido
             while (!validoP) {
-                jugador_atacante++;
+                if (jugador_atacante + 1 != cantidad_jugadores) {
+                    jugador_atacante++;
+                } else {
+                    jugador_atacante = 0;
+                }
                 if (equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje().getVida() > 0) {
                     validoP = true;
                 } else if (equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje().getVida() <= 0) {
@@ -112,6 +131,80 @@ public class Partida {
                     "Turno del Equipo " + (equipo_atacante + 1) + ". Jugador "
                             + equipos[equipo_atacante].getEquipo()[jugador_atacante].getNombre()
                             + ", es tu turno!");
+
+            if (equipos[equipo_atacante].getDinero() >= 3 && equipos[equipo_atacante].getEquipo()[jugador_atacante]
+                    .getPersonaje().getHerramientasUsadas() < 3) {
+                while (respuesta < 0 || respuesta > 1) {
+                    try {
+                        respuesta = Integer.parseInt(JOptionPane.showInputDialog(pantalla, "Tu equipo tiene "
+                                + equipos[equipo_atacante].getDinero()
+                                + "monedas. Hay 3 herramientas disponibles:\n1-Espada (+2 ataque)\n2-Escudo (+2 defensa)\n3-Poción (+2 vida).\n\n¿Quieres comprar alguna por 3 monedas? (0:no, 1:si)"));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(pantalla, "Error.");
+                    }
+                    if (respuesta < 0 || respuesta > 1) {
+                        respuesta = -1;
+                    } else if (respuesta == 1) {
+                        int decision = -1;
+                        while (decision < 0 || decision > 3) {
+                            try {
+                                decision = Integer.parseInt(JOptionPane.showInputDialog(pantalla,
+                                        "Las opciones son:\n1-Espada (+2 ataque)\n2-Escudo (+2 defensa)\n3-Poción (+2 vida). ¿Cuál quieres comprar? (Si no quieres comprar nada, escribe 0)"));
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(pantalla, "Error.");
+                            }
+                            if (decision < 0 || decision > 3) {
+                                JOptionPane.showMessageDialog(pantalla, "Error.");
+                                decision = 0;
+                            } else if (decision == 0) {
+                                JOptionPane.showMessageDialog(pantalla, "Continúa la partida.");
+                            } else {
+                                equipos[equipo_atacante].setDinero(-3);
+                                if (decision == 1) {
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setHerramientasUsadas();
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setHerramienta(new Espada());
+
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setAtaque(equipos[equipo_atacante].getEquipo()[jugador_atacante]
+                                                    .getPersonaje()
+                                                    .getAtaque() + 3);
+                                } else if (decision == 2) {
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setHerramientasUsadas();
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setHerramienta(new Escudo());
+
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setDefensa(equipos[equipo_atacante].getEquipo()[jugador_atacante]
+                                                    .getPersonaje()
+                                                    .getDefensa() + 3);
+                                } else if (decision == 3) {
+                                    /*
+                                     * equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                     * .setHerramientasUsadas();
+                                     * equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                     * .setHerramienta(new Pocion());
+                                     */
+                                    equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                            .setVida(equipos[equipo_atacante].getEquipo()[jugador_atacante]
+                                                    .getPersonaje()
+                                                    .getVida() + 3);
+                                }
+
+                                JOptionPane.showMessageDialog(pantalla, "Tu equipo ahora tiene "
+                                        + equipos[equipo_atacante].getDinero() + " monedas y tus stats han cambiado:"
+                                        + equipos[equipo_atacante].getEquipo()[jugador_atacante].getPersonaje()
+                                                .printPersonaje());
+                            }
+                        }
+
+                    } else if (respuesta == 0) {
+                        JOptionPane.showMessageDialog(pantalla, "Continúa la partida.");
+                    }
+                }
+            }
 
             // pregunta a cual equipo desea atacar
             while (equipo_atacado < 0 || (equipo_atacado + 1) > cantidad_equipos || equipo_atacado == equipo_atacante) {
@@ -157,7 +250,8 @@ public class Partida {
             }
 
             equipos[equipo_atacante].getEquipo()[jugador_atacante]
-                    .atacar(equipos[equipo_atacado].getEquipo()[jugador_atacado], pantalla);
+                    .atacar(equipos[equipo_atacante], equipos[equipo_atacado],
+                            equipos[equipo_atacado].getEquipo()[jugador_atacado], pantalla);
 
             // se fija si algún equipo entero está muerto
             for (int i = 0; i < cantidad_equipos; i++) {
