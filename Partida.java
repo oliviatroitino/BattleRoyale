@@ -1,4 +1,9 @@
 import javax.swing.JOptionPane;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Partida {
@@ -282,5 +287,29 @@ public class Partida {
                 }
             }
         }
+
     }
+
+    public static void escribirResultados(String nombreArchivo, int ganador, Equipo[] equipos) {
+        try {
+            File archivo = new File(nombreArchivo);
+            FileWriter fileWriter = new FileWriter(archivo);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write("Resultados de la partida:");
+            bufferedWriter.write("EL GANADOR ES EL EQUIPO: " + equipos[ganador]);
+
+            bufferedWriter.close();
+            fileWriter.close();
+
+            JOptionPane.showMessageDialog(null, "Resultados guardados en " + nombreArchivo,
+                    "Resultados Guardados", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar los resultados.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
 }
