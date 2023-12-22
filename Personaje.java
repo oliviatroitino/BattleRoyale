@@ -14,7 +14,9 @@ public abstract class Personaje extends Caracteristicas {
 	private TipoPersonaje tipoPersonaje;
 	private Herramientas herramienta;
 
-	public Personaje(float vida, float ataque, float defensa, Elementos elemento,
+	private Elemento elemento;
+
+	public Personaje(float vida, float ataque, float defensa, Elemento elemento,
 			TipoPersonaje tipoPersonaje, Herramientas herramienta) {
 		super(vida, ataque, defensa, elemento);
 		this.tipoPersonaje = tipoPersonaje;
@@ -46,7 +48,7 @@ public abstract class Personaje extends Caracteristicas {
 	public String printPersonaje() {
 		return "\n\nPersonaje de tipo " + getTipo_personaje() + "\n\tVida: " + getVida()
 				+ "\n\tAtaque: " + getAtaque()
-				+ "\n\tDefensa: " + getDefensa() + "\n\tElemento: " + getElemento().getElemento();
+				+ "\n\tDefensa: " + getDefensa() + "\n\tElemento: " + getElemento();
 	}
 
 	public String toString() {
@@ -55,8 +57,7 @@ public abstract class Personaje extends Caracteristicas {
 
 	}
 
-	public Elementos elegirElemento() {
-
+	public Elemento elegirElemento() {
 		Pantalla pantalla = new Pantalla("Elegir Elemento");
 		int selector = 0;
 
@@ -71,25 +72,70 @@ public abstract class Personaje extends Caracteristicas {
 				}
 			}
 
-			if (selector == 1) {
-				JOptionPane.showMessageDialog(pantalla, "Has elegido el elemento Agua.", "Elección de elemento",
-						JOptionPane.INFORMATION_MESSAGE);
-				Elementos elementoAgua = new Elementos(Elemento.Agua);
-				return elementoAgua;
-			} else if (selector == 2) {
-				JOptionPane.showMessageDialog(pantalla, "Has elegido  el elemento Fuego.", "Elección de elemento",
-						JOptionPane.INFORMATION_MESSAGE);
-				Elementos elementoFuego = new Elementos(Elemento.Fuego);
-				return elementoFuego;
-			} else if (selector == 3) {
-				JOptionPane.showMessageDialog(pantalla, "Has elegido  el elemento Hielo.", "Elección de elemento",
-						JOptionPane.INFORMATION_MESSAGE);
-				Elementos elementoHielo = new Elementos(Elemento.Hielo);
-				return elementoHielo;
-			} else {
-				JOptionPane.showMessageDialog(pantalla, "Selección no válida.");
+			Elemento elementoElegido = null;
+			switch (selector) {
+				case 1:
+					JOptionPane.showMessageDialog(pantalla, "Has elegido el elemento Agua.", "Elección de elemento",
+							JOptionPane.INFORMATION_MESSAGE);
+					elementoElegido = Elemento.AGUA;
+					break;
+				case 2:
+					JOptionPane.showMessageDialog(pantalla, "Has elegido el elemento Fuego.", "Elección de elemento",
+							JOptionPane.INFORMATION_MESSAGE);
+					elementoElegido = Elemento.FUEGO;
+					break;
+				case 3:
+					JOptionPane.showMessageDialog(pantalla, "Has elegido el elemento Hielo.", "Elección de elemento",
+							JOptionPane.INFORMATION_MESSAGE);
+					elementoElegido = Elemento.HIELO;
+					break;
+				default:
+					JOptionPane.showMessageDialog(pantalla, "Selección no válida.");
+					break;
+			}
+
+			if (elementoElegido != null) {
+				return elementoElegido;
 			}
 		} while (true);
 	}
+
+	/*
+	 * public void atacar(Jugador j_enemigo, Pantalla pantalla) {
+	 * Elementos elementos = new Elementos();
+	 * Personaje enemigo = j_enemigo.getPersonaje();
+	 * float factorAtaque = elementos.interaccion(this.getElemento(),
+	 * enemigo.getElemento());
+	 * 
+	 * // Incluyendo la lógica de armas
+	 * Herramientas arma = this.getHerramienta();
+	 * if (arma != null) {
+	 * if (arma.getTipoHerramienta() == tipo_herramienta.mele) {
+	 * factorAtaque *= 1.2f; // Ejemplo de bonificación de ataque para armas de
+	 * melee
+	 * } else if (arma.getTipoHerramienta() == tipo_herramienta.armadura) {
+	 * // Lógica para reducir el daño recibido por armadura, si aplica
+	 * } else if (arma.getTipoHerramienta() == tipo_herramienta.pocion) {
+	 * // Lógica para potenciar al personaje temporalmente con pociones
+	 * }
+	 * }
+	 * 
+	 * float damage = this.getAtaque() * factorAtaque - enemigo.getDefensa();
+	 * 
+	 * if (damage > 0) {
+	 * enemigo.setVida(enemigo.getVida() - damage);
+	 * JOptionPane.showMessageDialog(pantalla,
+	 * this.getTipo_personaje() + " " + j_enemigo.getNombre() + " ha atacado a "
+	 * + enemigo.getTipo_personaje() + " " + this.getNombre() + " causando " +
+	 * damage
+	 * + " puntos de daño.");
+	 * } else {
+	 * JOptionPane.showMessageDialog(pantalla,
+	 * this.getTipo_personaje() + " atacó a " + enemigo.getTipo_personaje() +
+	 * ", pero no causó daño.");
+	 * }
+	 * 
+	 * }
+	 */
 
 }
